@@ -6,7 +6,7 @@ import rings from "@/assets/product-rings.jpg";
 import chain from "@/assets/product-chain.jpg";
 
 export type ProductType = "clicker" | "spinner" | "slider" | "cube" | "rings" | "chain";
-export type Material = "PLA+" | "PETG" | "Resin" | "Nylon";
+export type Material = "PLA+" | "PETG";
 
 export interface Product {
   id: string;
@@ -36,7 +36,7 @@ export const products: Product[] = [
     image: clicker,
     description:
       "A precision-machined click mechanism with 0.1mm tolerance. Each press delivers a crisp, satisfying tactile snap engineered for endless fidgeting.",
-    materials: ["PLA+", "PETG", "Nylon"],
+    materials: ["PLA+", "PETG"],
     colors: [
       { name: "Void Black", hex: "#0a0a0f" },
       { name: "Neon Blue", hex: "#3b82f6" },
@@ -54,7 +54,7 @@ export const products: Product[] = [
     image: spinner,
     description:
       "Hexagonal precision spinner with ceramic bearings. Spins for 4+ minutes on a single flick. Perfectly weighted for the smoothest experience.",
-    materials: ["PLA+", "Nylon", "Resin"],
+    materials: ["PLA+", "PETG"],
     colors: [
       { name: "Gunmetal", hex: "#2a2a35" },
       { name: "Plasma Purple", hex: "#a855f7" },
@@ -72,7 +72,7 @@ export const products: Product[] = [
     image: slider,
     description:
       "Three magnetically-dampened sliders that float on rails. The smoothest linear motion you'll ever feel from a 3D printed toy.",
-    materials: ["PETG", "Nylon"],
+    materials: ["PETG", "PLA+"],
     colors: [
       { name: "Void Black", hex: "#0a0a0f" },
       { name: "Neon Blue", hex: "#3b82f6" },
@@ -105,7 +105,7 @@ export const products: Product[] = [
     image: rings,
     description:
       "Two interlocking rings with neodymium cores. Roll, snap, and orbit them between your fingers — endlessly hypnotic.",
-    materials: ["PLA+", "Resin"],
+    materials: ["PLA+", "PETG"],
     colors: [
       { name: "Void Black", hex: "#0a0a0f" },
       { name: "Neon Blue", hex: "#3b82f6" },
@@ -121,7 +121,7 @@ export const products: Product[] = [
     image: chain,
     description:
       "Print-in-place articulated chain with zero post-assembly. Flows like liquid metal, weighted for the perfect drape.",
-    materials: ["PLA+", "PETG", "Nylon"],
+    materials: ["PLA+", "PETG"],
     colors: [
       { name: "Plasma Purple", hex: "#a855f7" },
       { name: "Void Black", hex: "#0a0a0f" },
@@ -139,4 +139,4 @@ export const productTypes: { value: ProductType; label: string }[] = [
   { value: "chain", label: "Chains" },
 ];
 
-export const allMaterials: Material[] = ["PLA+", "PETG", "Resin", "Nylon"];
+export const allMaterials: Material[] = ["PLA+", "PETG"];
