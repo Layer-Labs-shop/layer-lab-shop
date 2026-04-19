@@ -1,16 +1,10 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Lock } from "lucide-react";
 import { useCart } from "@/store/cart";
+import { Seo } from "@/components/Seo";
 
-export const Route = createFileRoute("/checkout")({
-  head: () => ({
-    meta: [{ title: "Checkout — Layer Lab" }],
-  }),
-  component: CheckoutPage,
-});
-
-function CheckoutPage() {
+export default function CheckoutPage() {
   const { items, total, clear } = useCart();
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
@@ -21,10 +15,9 @@ function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-md px-6 py-32 text-center">
+        <Seo title="Checkout — Layer Lab" />
         <h1 className="font-display text-2xl font-bold">Nothing to check out</h1>
-        <Link to="/shop" className="mt-4 inline-block text-gradient hover:underline">
-          Shop now
-        </Link>
+        <Link to="/shop" className="mt-4 inline-block text-gradient hover:underline">Shop now</Link>
       </div>
     );
   }
@@ -34,12 +27,13 @@ function CheckoutPage() {
     setSubmitting(true);
     setTimeout(() => {
       clear();
-      navigate({ to: "/order-confirmation" });
+      navigate("/order-confirmation");
     }, 900);
   };
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
+      <Seo title="Checkout — Layer Lab" />
       <h1 className="font-display text-4xl font-bold md:text-5xl">Checkout</h1>
 
       <form onSubmit={onSubmit} className="mt-10 grid gap-10 lg:grid-cols-[1fr_380px]">
@@ -103,11 +97,7 @@ function CheckoutPage() {
             <span className="text-sm font-semibold">Total</span>
             <span className="font-display text-xl font-bold text-gradient">€{grand.toFixed(2)}</span>
           </div>
-          <button
-            type="submit"
-            disabled={submitting}
-            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand py-3 text-sm font-semibold text-primary-foreground transition-bounce hover:scale-[1.02] glow-brand disabled:opacity-60"
-          >
+          <button type="submit" disabled={submitting} className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand py-3 text-sm font-semibold text-primary-foreground transition-bounce hover:scale-[1.02] glow-brand disabled:opacity-60">
             {submitting ? "Processing..." : `Pay €${grand.toFixed(2)}`}
           </button>
         </aside>
@@ -125,19 +115,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field({
-  label,
-  ...props
-}: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
+function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      <input
-        {...props}
-        className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none transition-smooth focus:border-primary focus:ring-2 focus:ring-primary/20"
-      />
+      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</span>
+      <input {...props} className="w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none transition-smooth focus:border-primary focus:ring-2 focus:ring-primary/20" />
     </label>
   );
 }

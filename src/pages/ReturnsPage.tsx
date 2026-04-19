@@ -1,28 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { ShieldCheck, RotateCcw, CalendarClock, Mail } from "lucide-react";
+import { Seo } from "@/components/Seo";
 
-export const Route = createFileRoute("/returns")({
-  head: () => ({
-    meta: [
-      { title: "Returns & Warranty — Layer Lab" },
-      {
-        name: "description",
-        content:
-          "Every Layer Lab fidget is backed by a 15-day warranty. If something's off, we'll make it right.",
-      },
-      { property: "og:title", content: "Returns & Warranty — Layer Lab" },
-      {
-        property: "og:description",
-        content: "15-day warranty on every Layer Lab order. Easy returns, no fuss.",
-      },
-    ],
-  }),
-  component: ReturnsPage,
-});
-
-function ReturnsPage() {
+export default function ReturnsPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 py-20">
+      <Seo
+        title="Returns & Warranty — Layer Lab"
+        description="Every Layer Lab fidget is backed by a 15-day warranty. If something's off, we'll make it right."
+      />
       <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-3 py-1 text-xs text-muted-foreground">
         <ShieldCheck className="h-3.5 w-3.5" />
         Returns & Warranty
@@ -36,26 +21,10 @@ function ReturnsPage() {
       </p>
 
       <div className="mt-12 grid gap-4 md:grid-cols-2">
-        <Card
-          icon={<CalendarClock className="h-5 w-5" />}
-          title="15 days to decide"
-          body="You have 15 days from the day your order arrives to request a return or warranty replacement. Plenty of time to put it through its paces."
-        />
-        <Card
-          icon={<ShieldCheck className="h-5 w-5" />}
-          title="Defects covered"
-          body="Anything that arrives defective, damaged in transit, or fails under normal use within the warranty window will be replaced or refunded."
-        />
-        <Card
-          icon={<RotateCcw className="h-5 w-5" />}
-          title="Easy process"
-          body="Email us with your order number and a short description (a photo or video helps). We'll send return instructions within 1 business day."
-        />
-        <Card
-          icon={<Mail className="h-5 w-5" />}
-          title="Get in touch"
-          body="Returns and warranty claims go to hello@layerlab.shop. Items should be returned in their original packaging where possible."
-        />
+        <Card icon={<CalendarClock className="h-5 w-5" />} title="15 days to decide" body="You have 15 days from the day your order arrives to request a return or warranty replacement. Plenty of time to put it through its paces." />
+        <Card icon={<ShieldCheck className="h-5 w-5" />} title="Defects covered" body="Anything that arrives defective, damaged in transit, or fails under normal use within the warranty window will be replaced or refunded." />
+        <Card icon={<RotateCcw className="h-5 w-5" />} title="Easy process" body="Email us with your order number and a short description (a photo or video helps). We'll send return instructions within 1 business day." />
+        <Card icon={<Mail className="h-5 w-5" />} title="Get in touch" body="Returns and warranty claims go to layerlabscustomerservice@gmail.com. Items should be returned in their original packaging where possible." />
       </div>
 
       <div className="mt-12 rounded-2xl border border-border bg-card p-6">
@@ -71,15 +40,7 @@ function ReturnsPage() {
   );
 }
 
-function Card({
-  icon,
-  title,
-  body,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  body: string;
-}) {
+function Card({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-6 transition-smooth hover:border-primary/40">
       <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-brand-soft text-gradient">

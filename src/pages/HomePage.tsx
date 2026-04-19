@@ -1,36 +1,20 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Layers, Gauge } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import textureImg from "@/assets/texture-layers.jpg";
 import { products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
+import { Seo } from "@/components/Seo";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Layer Lab — Precision Printed Fidget Toys" },
-      {
-        name: "description",
-        content:
-          "Premium 3D printed fidget toys engineered for satisfaction. Shop clickers, spinners, sliders and more.",
-      },
-      { property: "og:title", content: "Layer Lab — Precision Printed Fidget Toys" },
-      {
-        property: "og:description",
-        content:
-          "Premium 3D printed fidget toys engineered for satisfaction. Shop clickers, spinners, sliders and more.",
-      },
-    ],
-  }),
-  component: HomePage,
-});
-
-function HomePage() {
+export default function HomePage() {
   const featured = products.slice(0, 4);
 
   return (
     <>
-      {/* Hero */}
+      <Seo
+        title="Layer Lab — Precision Printed Fidget Toys"
+        description="Premium 3D printed fidget toys engineered for satisfaction. Shop clickers, spinners, sliders and more."
+      />
       <section className="relative overflow-hidden">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2 lg:py-32">
           <div className="flex flex-col justify-center">
@@ -92,7 +76,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Featured products */}
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="mb-10 flex items-end justify-between">
           <div>
@@ -113,7 +96,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Brand story */}
       <section className="relative overflow-hidden">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-2 lg:items-center">
           <div className="relative overflow-hidden rounded-3xl border border-border">
@@ -127,52 +109,31 @@ function HomePage() {
             />
           </div>
           <div>
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-gradient">
-              Our craft
-            </div>
+            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-gradient">Our craft</div>
             <h2 className="mt-3 font-display text-3xl font-bold md:text-4xl">
               Every layer tuned for the perfect feel.
             </h2>
             <p className="mt-4 text-muted-foreground">
-              We obsess over the details that nobody else does — extrusion temperature, layer adhesion,
-              bearing seat tolerance. The result is a fidget that feels like a precision instrument,
-              not a toy.
+              We obsess over the details that nobody else does — extrusion temperature, layer adhesion, bearing seat tolerance. The result is a fidget that feels like a precision instrument, not a toy.
             </p>
             <p className="mt-4 text-muted-foreground">
-              Designed in our lab, printed on calibrated industrial machines, hand-finished and
-              quality-checked by humans before they ship to you.
+              Designed in our lab, printed on calibrated industrial machines, hand-finished and quality-checked by humans before they ship to you.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Why Layer Lab */}
       <section className="mx-auto max-w-7xl px-6 py-20">
         <h2 className="text-center font-display text-3xl font-bold md:text-4xl">
           Why <span className="text-gradient">Layer Lab</span>
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
-            {
-              icon: Gauge,
-              title: "Sub-mm precision",
-              desc: "0.1mm tolerances on every moving part. Bearings seat perfectly. Clicks land crisp.",
-            },
-            {
-              icon: Layers,
-              title: "Premium materials",
-              desc: "PLA+ and PETG sourced from the best filament makers in the world.",
-            },
-            {
-              icon: Sparkles,
-              title: "Designed to feel",
-              desc: "Each design is iterated dozens of times until the fidget action is genuinely satisfying.",
-            },
+            { icon: Gauge, title: "Sub-mm precision", desc: "0.2mm tolerances on every moving part. Bearings seat perfectly. Clicks land crisp." },
+            { icon: Layers, title: "Premium materials", desc: "PLA+ and PETG sourced from the best filament makers in the world." },
+            { icon: Sparkles, title: "Designed to feel", desc: "Each design is iterated dozens of times until the fidget action is genuinely satisfying." },
           ].map((f) => (
-            <div
-              key={f.title}
-              className="group rounded-2xl border border-border bg-card p-8 transition-smooth hover:border-primary/40 hover-lift"
-            >
+            <div key={f.title} className="group rounded-2xl border border-border bg-card p-8 transition-smooth hover:border-primary/40 hover-lift">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand-soft transition-bounce group-hover:scale-110">
                 <f.icon className="h-6 w-6 text-gradient" />
               </div>
@@ -183,7 +144,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Final CTA */}
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="relative overflow-hidden rounded-3xl border border-border bg-card p-12 text-center md:p-20">
           <div className="absolute inset-0 bg-gradient-brand-soft" />

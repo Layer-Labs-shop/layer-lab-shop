@@ -1,21 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
 import textureImg from "@/assets/texture-layers.jpg";
+import { Seo } from "@/components/Seo";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — Layer Lab" },
-      { name: "description", content: "The story behind Layer Lab — precision printing, obsessive design, hand-finished fidgets." },
-      { property: "og:title", content: "About — Layer Lab" },
-      { property: "og:description", content: "The story behind Layer Lab — precision printing, obsessive design, hand-finished fidgets." },
-    ],
-  }),
-  component: AboutPage,
-});
-
-function AboutPage() {
+export default function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl px-6 py-20">
+      <Seo
+        title="About — Layer Lab"
+        description="The story behind Layer Lab — precision printing, obsessive design, hand-finished fidgets."
+      />
       <div className="text-xs font-semibold uppercase tracking-[0.2em] text-gradient">Our story</div>
       <h1 className="mt-3 font-display text-4xl font-bold md:text-6xl">
         Built layer by layer.<br />
@@ -28,14 +20,7 @@ function AboutPage() {
       </p>
 
       <div className="mt-12 overflow-hidden rounded-3xl border border-border">
-        <img
-          src={textureImg}
-          alt="Macro of 3D printed layer lines"
-          loading="lazy"
-          width={1280}
-          height={720}
-          className="h-full w-full object-cover"
-        />
+        <img src={textureImg} alt="Macro of 3D printed layer lines" loading="lazy" width={1280} height={720} className="h-full w-full object-cover" />
       </div>
 
       <div className="mt-16 grid gap-10 md:grid-cols-2">
@@ -44,8 +29,7 @@ function AboutPage() {
           <p className="mt-3 text-muted-foreground">
             Every Layer Lab fidget is printed at 0.2mm layer height with a calibrated tolerance of
             ±0.05mm on bearing seats. We chase the dimensional accuracy normally reserved for
-            functional engineering parts — because a fidget that doesn't feel right isn't worth
-            making.
+            functional engineering parts — because a fidget that doesn't feel right isn't worth making.
           </p>
         </div>
         <div>

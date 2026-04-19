@@ -1,20 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/store/cart";
+import { Seo } from "@/components/Seo";
 
-export const Route = createFileRoute("/cart")({
-  head: () => ({
-    meta: [{ title: "Cart — Layer Lab" }],
-  }),
-  component: CartPage,
-});
-
-function CartPage() {
+export default function CartPage() {
   const { items, updateQuantity, removeItem, total } = useCart();
 
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-md px-6 py-32 text-center">
+        <Seo title="Cart — Layer Lab" />
         <div className="mx-auto inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-brand-soft">
           <ShoppingBag className="h-7 w-7 text-gradient" />
         </div>
@@ -35,15 +30,13 @@ function CartPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
+      <Seo title="Cart — Layer Lab" />
       <h1 className="font-display text-4xl font-bold md:text-5xl">Your cart</h1>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_360px]">
         <div className="space-y-4">
           {items.map((item, i) => (
-            <div
-              key={`${item.product.id}-${i}`}
-              className="flex gap-4 rounded-2xl border border-border bg-card p-4"
-            >
+            <div key={`${item.product.id}-${i}`} className="flex gap-4 rounded-2xl border border-border bg-card p-4">
               <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-secondary">
                 <img src={item.product.image} alt={item.product.name} className="h-full w-full object-cover" />
               </div>
@@ -65,19 +58,11 @@ function CartPage() {
                 </div>
                 <div className="mt-auto flex items-center justify-between pt-3">
                   <div className="inline-flex items-center gap-1 rounded-full border border-border">
-                    <button
-                      onClick={() => updateQuantity(i, item.quantity - 1)}
-                      className="inline-flex h-8 w-8 items-center justify-center transition-smooth hover:text-gradient"
-                      aria-label="Decrease"
-                    >
+                    <button onClick={() => updateQuantity(i, item.quantity - 1)} className="inline-flex h-8 w-8 items-center justify-center transition-smooth hover:text-gradient" aria-label="Decrease">
                       <Minus className="h-3 w-3" />
                     </button>
                     <span className="w-6 text-center text-sm font-semibold">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(i, item.quantity + 1)}
-                      className="inline-flex h-8 w-8 items-center justify-center transition-smooth hover:text-gradient"
-                      aria-label="Increase"
-                    >
+                    <button onClick={() => updateQuantity(i, item.quantity + 1)} className="inline-flex h-8 w-8 items-center justify-center transition-smooth hover:text-gradient" aria-label="Increase">
                       <Plus className="h-3 w-3" />
                     </button>
                   </div>
@@ -101,10 +86,7 @@ function CartPage() {
             <span className="text-sm font-semibold">Total</span>
             <span className="font-display text-xl font-bold text-gradient">€{grand.toFixed(2)}</span>
           </div>
-          <Link
-            to="/checkout"
-            className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand py-3 text-sm font-semibold text-primary-foreground transition-bounce hover:scale-[1.02] glow-brand"
-          >
+          <Link to="/checkout" className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-brand py-3 text-sm font-semibold text-primary-foreground transition-bounce hover:scale-[1.02] glow-brand">
             Checkout
           </Link>
           <p className="mt-3 text-center text-xs text-muted-foreground">
