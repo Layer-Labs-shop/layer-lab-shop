@@ -27,9 +27,9 @@ export default function AboutPage() {
         <div>
           <h2 className="font-display text-2xl font-bold">Precision is the product</h2>
           <p className="mt-3 text-muted-foreground">
-            Every Layer Lab fidget is printed at 0.2mm layer height with a calibrated tolerance of
+            Every Layer Lab print is produced at 0.2mm layer height with a calibrated tolerance of
             ±0.05mm on bearing seats. We chase the dimensional accuracy normally reserved for
-            functional engineering parts — because a fidget that doesn't feel right isn't worth making.
+            functional engineering parts — because a print that doesn't feel right isn't worth making.
           </p>
         </div>
         <div>
@@ -44,7 +44,7 @@ export default function AboutPage() {
           <h2 className="font-display text-2xl font-bold">Materials that last</h2>
           <p className="mt-3 text-muted-foreground">
             PLA+ for everyday durability. PETG for impact resistance. We pick the material
-            that makes the fidget feel best — not the cheapest one.
+            that makes the piece feel best — not the cheapest one.
           </p>
         </div>
         <div>
