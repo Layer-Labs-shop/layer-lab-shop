@@ -7,9 +7,9 @@ import { SatisfactionMeter } from "@/components/SatisfactionMeter";
 import { Seo } from "@/components/Seo";
 
 const reviews = [
-  { name: "Marcus T.", rating: 5, text: "Got the 10-pack and every single fidget was crisp. Two of my favourites came in this box." },
+  { name: "Marcus T.", rating: 5, text: "Got the 10-pack and every single print was crisp. Two of my favourites came in this box." },
   { name: "Aisha R.", rating: 5, text: "The mystery factor is half the fun. Build quality across all of them is unreal." },
-  { name: "Devon K.", rating: 4, text: "Bought the 25 box for the office. Everyone fought over the spinners. Worth it." },
+  { name: "Devon K.", rating: 4, text: "Bought the 25 box for the office. Everyone fought over the spinners and desk pieces. Worth it." },
 ];
 
 export default function ProductPage() {
