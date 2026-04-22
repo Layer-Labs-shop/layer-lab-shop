@@ -131,7 +131,7 @@ export default function HomePage() {
           {[
             { icon: Gauge, title: "Sub-mm precision", desc: "0.2mm tolerances on every moving part. Bearings seat perfectly. Clicks land crisp." },
             { icon: Layers, title: "Premium materials", desc: "PLA+ and PETG sourced from the best filament makers in the world." },
-            { icon: Sparkles, title: "Designed to feel", desc: "Each design is iterated dozens of times until the fidget action is genuinely satisfying." },
+            { icon: Sparkles, title: "Designed to feel", desc: "Each design is iterated dozens of times until every print is genuinely satisfying." },
           ].map((f) => (
             <div key={f.title} className="group rounded-2xl border border-border bg-card p-8 transition-smooth hover:border-primary/40 hover-lift">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand-soft transition-bounce group-hover:scale-110">
