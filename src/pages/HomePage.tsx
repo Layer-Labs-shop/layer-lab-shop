@@ -67,7 +67,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-brand-soft blur-3xl" />
             <img
               src={heroImg}
-              alt="Layer Lab fidget spinner with neon rim lighting"
+              alt="Layer Lab precision 3D printed piece with neon rim lighting"
               width={1600}
               height={1024}
               className="relative animate-float drop-shadow-2xl"
