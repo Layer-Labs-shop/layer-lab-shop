@@ -6,7 +6,7 @@ export default function AboutPage() {
     <div className="mx-auto max-w-4xl px-6 py-20">
       <Seo
         title="About — Layer Lab"
-        description="The story behind Layer Lab — precision printing, obsessive design, hand-finished fidgets."
+        description="The story behind Layer Lab — precision printing, obsessive design, hand-finished 3D prints."
       />
       <div className="text-xs font-semibold uppercase tracking-[0.2em] text-gradient">Our story</div>
       <h1 className="mt-3 font-display text-4xl font-bold md:text-6xl">
@@ -16,7 +16,7 @@ export default function AboutPage() {
       <p className="mt-6 text-lg text-muted-foreground">
         Layer Lab started in a garage with one printer and a bad fidget cube. We knew we could
         do better — tighter tolerances, smoother mechanics, a real sense of craft. Three years
-        later, our fidgets ship to thousands of desks worldwide.
+        later, our prints — from fidgets to desk pieces and custom commissions — ship to thousands of homes worldwide.
       </p>
 
       <div className="mt-12 overflow-hidden rounded-3xl border border-border">
