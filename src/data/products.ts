@@ -1,12 +1,22 @@
 import mysteryBox from "@/assets/product-mystery-box.jpg";
+import scrubDaddyHolder from "@/assets/product-scrub-daddy-holder.jpg";
+import nameKeychain from "@/assets/product-name-keychain.jpg";
 
 export type Material = "PLA+" | "PETG";
+
+export type ProductKind = "mystery" | "print";
+
+export interface ProductColor {
+  name: string;
+  hex: string;
+}
 
 export interface Product {
   id: string;
   slug: string;
   name: string;
   size: string;
+  kind: ProductKind;
   fidgetCount: number;
   freeFidgets: number;
   bonusChance: number;
@@ -14,6 +24,8 @@ export interface Product {
   image: string;
   description: string;
   materials: Material[];
+  colors?: ProductColor[];
+  customizable?: boolean;
   satisfaction: {
     smoothness: number;
     sound: number;
@@ -22,12 +34,77 @@ export interface Product {
   badge?: string;
 }
 
+const standardColors: Record<string, ProductColor> = {
+  blue: { name: "Blue", hex: "#2563eb" },
+  red: { name: "Red", hex: "#dc2626" },
+  black: { name: "Black", hex: "#111111" },
+  pink: { name: "Pink", hex: "#ec4899" },
+  purple: { name: "Purple", hex: "#7c3aed" },
+  gray: { name: "Gray", hex: "#6b7280" },
+  white: { name: "White", hex: "#f5f5f5" },
+  green: { name: "Green", hex: "#16a34a" },
+};
+
 export const products: Product[] = [
+  {
+    id: "5",
+    slug: "scrub-daddy-holder",
+    name: "Scrub Daddy Holder",
+    size: "Print",
+    kind: "print",
+    fidgetCount: 1,
+    freeFidgets: 0,
+    bonusChance: 0,
+    price: 9.99,
+    image: scrubDaddyHolder,
+    description:
+      "A cheeky 3D printed throne for your Scrub Daddy. Articulated legs, sturdy cradle and a hanging loop for drainage — keeps your sponge dry and your sink looking fun.",
+    materials: ["PLA+", "PETG"],
+    colors: [
+      standardColors.blue,
+      standardColors.red,
+      standardColors.black,
+      standardColors.pink,
+      standardColors.purple,
+      standardColors.gray,
+      standardColors.white,
+    ],
+    satisfaction: { smoothness: 9, sound: 8, tactile: 9 },
+    badge: "New",
+  },
+  {
+    id: "6",
+    slug: "custom-name-keychain",
+    name: "Customizable Name Keychain",
+    size: "Print",
+    kind: "print",
+    fidgetCount: 1,
+    freeFidgets: 0,
+    bonusChance: 0,
+    price: 6.99,
+    image: nameKeychain,
+    description:
+      "A precision-printed keychain personalised with the name (or word) of your choice. Bold layered letters, sturdy keyring loop and a finish that survives daily pocket life.",
+    materials: ["PLA+", "PETG"],
+    colors: [
+      standardColors.green,
+      standardColors.blue,
+      standardColors.red,
+      standardColors.pink,
+      standardColors.purple,
+      standardColors.white,
+      standardColors.gray,
+    ],
+    customizable: true,
+    satisfaction: { smoothness: 9, sound: 7, tactile: 9 },
+    badge: "Custom",
+  },
   {
     id: "1",
     slug: "mystery-box-5",
     name: "Mystery Box — 5 Prints",
     size: "Starter",
+    kind: "mystery",
     fidgetCount: 5,
     freeFidgets: 0,
     bonusChance: 1,
@@ -43,6 +120,7 @@ export const products: Product[] = [
     slug: "mystery-box-10",
     name: "Mystery Box — 10 Prints",
     size: "Popular",
+    kind: "mystery",
     fidgetCount: 10,
     freeFidgets: 0,
     bonusChance: 4,
@@ -59,6 +137,7 @@ export const products: Product[] = [
     slug: "mystery-box-15",
     name: "Mystery Box — 15 Prints",
     size: "Premium",
+    kind: "mystery",
     fidgetCount: 15,
     freeFidgets: 1,
     bonusChance: 7,
@@ -75,6 +154,7 @@ export const products: Product[] = [
     slug: "mystery-box-25",
     name: "Mystery Box — 25 Prints",
     size: "Mega",
+    kind: "mystery",
     fidgetCount: 25,
     freeFidgets: 2,
     bonusChance: 10,

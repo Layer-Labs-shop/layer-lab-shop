@@ -8,10 +8,13 @@ export function ProductCard({ product }: { product: Product }) {
 
   const quickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
+    // For customizable prints, send users to the product page instead of quick-adding.
+    if (product.customizable) return;
+    const variant = product.colors?.[0]?.name ?? product.materials[0];
     addItem({
       product,
       quantity: 1,
-      material: product.materials[0],
+      material: variant,
     });
   };
 
@@ -34,13 +37,15 @@ export function ProductCard({ product }: { product: Product }) {
             {product.badge}
           </span>
         )}
-        <button
-          onClick={quickAdd}
-          aria-label="Quick add to cart"
-          className="absolute bottom-3 right-3 inline-flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground opacity-0 transition-bounce hover:scale-110 group-hover:translate-y-0 group-hover:opacity-100"
-        >
-          <Plus className="h-4 w-4" />
-        </button>
+        {!product.customizable && (
+          <button
+            onClick={quickAdd}
+            aria-label="Quick add to cart"
+            className="absolute bottom-3 right-3 inline-flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground opacity-0 transition-bounce hover:scale-110 group-hover:translate-y-0 group-hover:opacity-100"
+          >
+            <Plus className="h-4 w-4" />
+          </button>
+        )}
       </div>
       <div className="flex flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-3">
@@ -52,15 +57,36 @@ export function ProductCard({ product }: { product: Product }) {
             €{product.price.toFixed(2)}
           </div>
         </div>
-        <ul className="space-y-0.5 text-xs text-muted-foreground">
-          <li>• {product.fidgetCount} random prints</li>
-          {product.freeFidgets > 0 && (
-            <li className="text-foreground">
-              • {product.freeFidgets} free print{product.freeFidgets > 1 ? "s" : ""} included
-            </li>
-          )}
-          <li>• {product.bonusChance}% chance of bonus print</li>
-        </ul>
+        {product.kind === "mystery" ? (
+          <ul className="space-y-0.5 text-xs text-muted-foreground">
+            <li>• {product.fidgetCount} random prints</li>
+            {product.freeFidgets > 0 && (
+              <li className="text-foreground">
+                • {product.freeFidgets} free print{product.freeFidgets > 1 ? "s" : ""} included
+              </li>
+            )}
+            <li>• {product.bonusChance}% chance of bonus print</li>
+          </ul>
+        ) : (
+          <div className="space-y-2 text-xs text-muted-foreground">
+            {product.customizable && <div className="text-foreground">• Personalised with your name</div>}
+            {product.colors && product.colors.length > 0 && (
+              <div className="flex items-center gap-1.5">
+                {product.colors.slice(0, 6).map((c) => (
+                  <span
+                    key={c.name}
+                    title={c.name}
+                    className="h-3.5 w-3.5 rounded-full border border-border"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                ))}
+                {product.colors.length > 6 && (
+                  <span className="text-[10px]">+{product.colors.length - 6}</span>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </Link>
   );
