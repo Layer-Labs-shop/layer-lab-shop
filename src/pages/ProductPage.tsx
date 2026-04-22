@@ -114,7 +114,7 @@ export default function ProductPage() {
 
           <div className="mt-10 rounded-2xl border border-border bg-card p-6">
             <h3 className="font-display text-sm font-semibold">Satisfaction factor</h3>
-            <p className="text-xs text-muted-foreground">How fidgets in this box actually feel.</p>
+            <p className="text-xs text-muted-foreground">How the prints in this box actually feel.</p>
             <div className="mt-5 space-y-4">
               <SatisfactionMeter label="Click smoothness" value={product.satisfaction.smoothness} />
               <SatisfactionMeter label="Sound rating" value={product.satisfaction.sound} />
