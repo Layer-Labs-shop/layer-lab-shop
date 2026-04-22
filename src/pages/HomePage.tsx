@@ -28,7 +28,7 @@ export default function HomePage() {
               <span className="text-gradient">Perfectly Satisfying.</span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-              High-end 3D printed fidget toys with sub-millimeter tolerances. Smooth mechanics, premium materials, futuristic design.
+              High-end 3D printed goods with sub-millimeter tolerances — fidgets, desk pieces and custom prints. Smooth mechanics, premium materials, futuristic design.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
