@@ -17,7 +17,7 @@ const sections = [
     title: "Materials",
     items: [
       { q: "What filaments do you use?", a: "We exclusively print in PLA+ and PETG. PLA+ gives a crisp tactile feel and rich color saturation. PETG is tougher and slightly flexible — better for parts that take repeated stress." },
-      { q: "Why only PLA+ and PETG?", a: "We tested dozens of materials and these two consistently deliver the best balance of finish quality, durability, and sustainability for fidget-grade products." },
+      { q: "Why only PLA+ and PETG?", a: "We tested dozens of materials and these two consistently deliver the best balance of finish quality, durability, and sustainability for everyday prints." },
       { q: "Are your materials safe?", a: "Yes. Both PLA+ and PETG are non-toxic. PLA+ is plant-based and biodegradable under industrial composting conditions." },
     ],
   },
