@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Check, ShoppingBag, Star, Gift, Sparkles, Package } from "lucide-react";
 import { products } from "@/data/products";
 import { useCart } from "@/store/cart";
-import { SatisfactionMeter } from "@/components/SatisfactionMeter";
 import { Seo } from "@/components/Seo";
 
 const reviews = [
