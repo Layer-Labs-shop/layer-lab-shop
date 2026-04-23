@@ -49,7 +49,7 @@ export default function AccountPage() {
       if (error) {
         toast.error("Could not load orders: " + error.message);
       } else {
-        setOrders((data ?? []) as Order[]);
+        setOrders((data ?? []) as unknown as Order[]);
       }
       setLoadingOrders(false);
     })();
