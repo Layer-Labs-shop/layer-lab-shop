@@ -1,7 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, User, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/store/cart";
+import { useAuth } from "@/hooks/useAuth";
 import { Logo } from "./Logo";
 
 const navLinks = [
@@ -13,6 +14,7 @@ const navLinks = [
 
 export function Header() {
   const { count } = useCart();
+  const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
 
   return (
@@ -55,6 +57,24 @@ export function Header() {
               </span>
             )}
           </Link>
+          {user ? (
+            <button
+              onClick={() => signOut()}
+              className="hidden h-10 items-center gap-2 rounded-full border border-border px-4 text-xs font-semibold transition-smooth hover:bg-secondary md:inline-flex"
+              title={user.email ?? "Account"}
+            >
+              <LogOut className="h-4 w-4" />
+              Sign out
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              className="hidden h-10 items-center gap-2 rounded-full border border-border px-4 text-xs font-semibold transition-smooth hover:bg-secondary md:inline-flex"
+            >
+              <User className="h-4 w-4" />
+              Sign in
+            </Link>
+          )}
           <button
             className="inline-flex h-10 w-10 items-center justify-center rounded-full transition-smooth hover:bg-secondary md:hidden"
             onClick={() => setOpen((v) => !v)}
