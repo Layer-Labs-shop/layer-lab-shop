@@ -174,18 +174,6 @@ export default function ProductPage() {
             )}
           </button>
 
-          <div className="mt-10 rounded-2xl border border-border bg-card p-6">
-            <h3 className="font-display text-sm font-semibold">Satisfaction factor</h3>
-            <p className="text-xs text-muted-foreground">How this print actually feels.</p>
-            <div className="mt-5 space-y-4">
-              <SatisfactionMeter label="Click smoothness" value={product.satisfaction.smoothness} />
-              <SatisfactionMeter label="Sound rating" value={product.satisfaction.sound} />
-              <SatisfactionMeter label="Tactile feedback" value={product.satisfaction.tactile} />
-            </div>
-          </div>
-        </div>
-      </div>
-
       <section className="mt-20">
         <h2 className="font-display text-2xl font-bold md:text-3xl">What people say</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
