@@ -14,7 +14,7 @@ const navLinks = [
 
 export function Header() {
   const { count } = useCart();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
 
   return (
