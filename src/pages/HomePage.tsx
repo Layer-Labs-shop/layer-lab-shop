@@ -23,9 +23,9 @@ export default function HomePage() {
               Engineered for satisfaction
             </div>
             <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-              Precision Printed.
+              Prints to go,
               <br />
-              <span className="text-gradient">Perfectly Satisfying.</span>
+              <span className="text-gradient">Layer By Layer!</span>
             </h1>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
               High-end 3D printed goods with sub-millimeter tolerances — fidgets, desk pieces and custom prints. Smooth mechanics, premium materials, futuristic design.
