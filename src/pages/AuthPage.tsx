@@ -12,7 +12,6 @@ import { useEffect } from "react";
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
