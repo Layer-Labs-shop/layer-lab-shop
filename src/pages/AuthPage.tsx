@@ -32,12 +32,6 @@ async function onSubmit(e: React.FormEvent) {
 
   try {
     if (mode === "signup") {
-      async function onSubmit(e: React.FormEvent) {
-  e.preventDefault();
-  setBusy(true);
-
-  try {
-    if (mode === "signup") {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("Signed up:", userCredential.user);
       toast.success("Account created!");
