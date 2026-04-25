@@ -50,18 +50,18 @@ async function onSubmit(e: React.FormEvent) {
 }
 
   async function onGoogle() {
-    setBusy(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-    });
-    if (result.error) {
-      toast.error(result.error.message ?? "Google sign-in failed");
-      setBusy(false);
-      return;
-    }
-    if (result.redirected) return;
+  setBusy(true);
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    console.log("Google user:", result.user);
+    toast.success("Signed in with Google!");
     navigate("/");
+  } catch (err) {
+    toast.error(err instanceof Error ? err.message : "Google sign-in failed");
+  } finally {
+    setBusy(false);
   }
+}
 
   return (
     <div className="mx-auto max-w-md px-6 py-20">
