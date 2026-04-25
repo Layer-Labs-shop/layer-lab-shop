@@ -26,25 +26,34 @@ export default function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) throw error;
-        toast.success("Check your email to confirm your account.");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast.success("Welcome back!");
-        navigate("/");
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Something went wrong");
-    } finally {
-      setBusy(false);
+async function onSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  setBusy(true);
+
+  try {
+    if (mode === "signup") {
+      async function onSubmit(e: React.FormEvent) {
+  e.preventDefault();
+  setBusy(true);
+
+  try {
+    if (mode === "signup") {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Signed up:", userCredential.user);
+      toast.success("Account created!");
+      navigate("/");
+    } else {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Logged in:", userCredential.user);
+      toast.success("Welcome back!");
+      navigate("/");
     }
+  } catch (err) {
+    toast.error(err instanceof Error ? err.message : "Something went wrong");
+  } finally {
+    setBusy(false);
   }
+}
 
   async function onGoogle() {
     setBusy(true);
