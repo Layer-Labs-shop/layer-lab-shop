@@ -17,18 +17,28 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => {
-    if (user) navigate("/", { replace: true });
-  }, [user, navigate]);
-
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      if (mode === "signup") {
-async function onSubmit(e: React.FormEvent) {
+ async function onSubmit(e: React.FormEvent) {
   e.preventDefault();
   setBusy(true);
+
+  try {
+    if (mode === "signup") {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("Signed up:", userCredential.user);
+      toast.success("Account created!");
+      navigate("/");
+    } else {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Logged in:", userCredential.user);
+      toast.success("Welcome back!");
+      navigate("/");
+    }
+  } catch (err) {
+    toast.error(err instanceof Error ? err.message : "Something went wrong");
+  } finally {
+    setBusy(false);
+  }
+}
 
   try {
     if (mode === "signup") {
