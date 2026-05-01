@@ -18,6 +18,7 @@ export interface Product {
   name: string;
   size: string;
   kind: ProductKind;
+  category?: "scooter";
   fidgetCount: number;
   freeFidgets: number;
   bonusChance: number;
