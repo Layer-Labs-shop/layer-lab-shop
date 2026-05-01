@@ -6,8 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ShopPage() {
   const mysteryBoxes = useMemo(() => products.filter((p) => p.kind === "mystery"), []);
-  const prints = useMemo(() => products.filter((p) => p.kind === "print" && !p.customizable), []);
+  const prints = useMemo(() => products.filter((p) => p.kind === "print" && !p.customizable && p.category !== "scooter"), []);
   const customizable = useMemo(() => products.filter((p) => p.customizable), []);
+  const scooters = useMemo(() => products.filter((p) => p.category === "scooter"), []);
 
   const renderGrid = (items: typeof products) => (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
