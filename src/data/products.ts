@@ -30,6 +30,7 @@ export interface Product {
   bonusChance: number;
   price: number;
   image: string;
+  images?: string[];
   description: string;
   materials: Material[];
   colors?: ProductColor[];
