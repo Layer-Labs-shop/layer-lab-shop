@@ -19,10 +19,13 @@ export default function ProductPage() {
   const isPrint = product?.kind === "print";
   const initialColor = product?.colors?.[0]?.name ?? "";
 
+  const gallery = product?.images && product.images.length > 0 ? product.images : product ? [product.image] : [];
+
   const [material, setMaterial] = useState(product?.materials[0] ?? "PLA+");
   const [color, setColor] = useState<string>(initialColor);
   const [customName, setCustomName] = useState("");
   const [added, setAdded] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
 
   if (!product) {
     return (
