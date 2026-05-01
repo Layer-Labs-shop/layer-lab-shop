@@ -1,6 +1,7 @@
 import mysteryBox from "@/assets/product-mystery-box.jpg";
 import scrubDaddyHolder from "@/assets/product-scrub-daddy-holder.jpg";
 import nameKeychain from "@/assets/product-name-keychain.jpg";
+import canClip from "@/assets/product-can-clip.jpg";
 
 export type Material = "PLA+" | "PETG";
 
