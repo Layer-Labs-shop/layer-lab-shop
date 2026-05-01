@@ -52,6 +52,10 @@ const standardColors: Record<string, ProductColor> = {
   gray: { name: "Gray", hex: "#6b7280" },
   white: { name: "White", hex: "#f5f5f5" },
   green: { name: "Green", hex: "#16a34a" },
+  darkGreen: { name: "Dark Green", hex: "#065f46" },
+  darkRed: { name: "Dark Red", hex: "#7f1d1d" },
+  gold: { name: "Gold", hex: "#d4af37" },
+  brightRed: { name: "Bright Red", hex: "#ef4444" },
 };
 
 export const products: Product[] = [
