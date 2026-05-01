@@ -2,6 +2,12 @@ import mysteryBox from "@/assets/product-mystery-box.jpg";
 import scrubDaddyHolder from "@/assets/product-scrub-daddy-holder.jpg";
 import nameKeychain from "@/assets/product-name-keychain.jpg";
 import canClip from "@/assets/product-can-clip.jpg";
+import suspensionCover1 from "@/assets/product-suspension-cover-1.jpg";
+import suspensionCover2 from "@/assets/product-suspension-cover-2.jpg";
+import dihossauro1 from "@/assets/product-dihossauro-1.jpg";
+import dihossauro2 from "@/assets/product-dihossauro-2.jpg";
+import dihossauro3 from "@/assets/product-dihossauro-3.jpg";
+import dihossauro4 from "@/assets/product-dihossauro-4.jpg";
 
 export type Material = "PLA+" | "PETG";
 
