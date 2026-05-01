@@ -19,10 +19,13 @@ export default function ProductPage() {
   const isPrint = product?.kind === "print";
   const initialColor = product?.colors?.[0]?.name ?? "";
 
+  const gallery = product?.images && product.images.length > 0 ? product.images : product ? [product.image] : [];
+
   const [material, setMaterial] = useState(product?.materials[0] ?? "PLA+");
   const [color, setColor] = useState<string>(initialColor);
   const [customName, setCustomName] = useState("");
   const [added, setAdded] = useState(false);
+  const [activeImage, setActiveImage] = useState(0);
 
   if (!product) {
     return (
@@ -63,7 +66,7 @@ export default function ProductPage() {
           <div className="relative aspect-square overflow-hidden rounded-3xl border border-border bg-card">
             <div className="absolute inset-0 bg-gradient-brand-soft blur-3xl opacity-50" />
             <img
-              src={product.image}
+              src={gallery[activeImage]}
               alt={product.name}
               width={1024}
               height={1024}
@@ -75,6 +78,22 @@ export default function ProductPage() {
               </span>
             )}
           </div>
+          {gallery.length > 1 && (
+            <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+              {gallery.map((img, idx) => (
+                <button
+                  key={img}
+                  onClick={() => setActiveImage(idx)}
+                  aria-label={`View image ${idx + 1}`}
+                  className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-smooth ${
+                    activeImage === idx ? "border-primary glow-brand" : "border-border hover:border-primary/40"
+                  }`}
+                >
+                  <img src={img} alt="" className="h-full w-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>

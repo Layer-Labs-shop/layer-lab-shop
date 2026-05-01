@@ -2,6 +2,12 @@ import mysteryBox from "@/assets/product-mystery-box.jpg";
 import scrubDaddyHolder from "@/assets/product-scrub-daddy-holder.jpg";
 import nameKeychain from "@/assets/product-name-keychain.jpg";
 import canClip from "@/assets/product-can-clip.jpg";
+import suspensionCover1 from "@/assets/product-suspension-cover-1.jpg";
+import suspensionCover2 from "@/assets/product-suspension-cover-2.jpg";
+import dihossauro1 from "@/assets/product-dihossauro-1.jpg";
+import dihossauro2 from "@/assets/product-dihossauro-2.jpg";
+import dihossauro3 from "@/assets/product-dihossauro-3.jpg";
+import dihossauro4 from "@/assets/product-dihossauro-4.jpg";
 
 export type Material = "PLA+" | "PETG";
 
@@ -24,6 +30,7 @@ export interface Product {
   bonusChance: number;
   price: number;
   image: string;
+  images?: string[];
   description: string;
   materials: Material[];
   colors?: ProductColor[];
@@ -45,6 +52,10 @@ const standardColors: Record<string, ProductColor> = {
   gray: { name: "Gray", hex: "#6b7280" },
   white: { name: "White", hex: "#f5f5f5" },
   green: { name: "Green", hex: "#16a34a" },
+  darkGreen: { name: "Dark Green", hex: "#065f46" },
+  darkRed: { name: "Dark Red", hex: "#7f1d1d" },
+  gold: { name: "Gold", hex: "#d4af37" },
+  brightRed: { name: "Bright Red", hex: "#ef4444" },
 };
 
 export const products: Product[] = [
@@ -98,6 +109,58 @@ export const products: Product[] = [
       standardColors.green,
     ],
     satisfaction: { smoothness: 9, sound: 7, tactile: 9 },
+    badge: "New",
+  },
+  {
+    id: "8",
+    slug: "segway-g3-suspension-cover",
+    name: "Blacked Out Suspension Cover for Segway G3",
+    size: "Print",
+    kind: "print",
+    category: "scooter",
+    fidgetCount: 1,
+    freeFidgets: 0,
+    bonusChance: 0,
+    price: 5,
+    image: suspensionCover1,
+    images: [suspensionCover1, suspensionCover2],
+    description:
+      "Blacked out suspension cover for the Segway G3. Comes with double-sided tape and just clips right on — instantly cleans up the look of your rear suspension.",
+    materials: ["PLA+", "PETG"],
+    colors: [standardColors.black],
+    satisfaction: { smoothness: 9, sound: 7, tactile: 9 },
+    badge: "New",
+  },
+  {
+    id: "9",
+    slug: "dihossauro",
+    name: "Dihossauro",
+    size: "Print",
+    kind: "print",
+    fidgetCount: 1,
+    freeFidgets: 0,
+    bonusChance: 0,
+    price: 10,
+    image: dihossauro1,
+    images: [dihossauro1, dihossauro2, dihossauro3, dihossauro4],
+    description:
+      "The cheekiest desk companion you'll ever own. A novelty 3D-printed dino with… personality. Detailed sculpt, sturdy stance and available in a wide range of colors.",
+    materials: ["PLA+", "PETG"],
+    colors: [
+      standardColors.black,
+      standardColors.red,
+      standardColors.gray,
+      standardColors.blue,
+      standardColors.darkGreen,
+      standardColors.green,
+      standardColors.darkRed,
+      standardColors.white,
+      standardColors.gold,
+      standardColors.pink,
+      standardColors.purple,
+      standardColors.brightRed,
+    ],
+    satisfaction: { smoothness: 8, sound: 6, tactile: 9 },
     badge: "New",
   },
   {
