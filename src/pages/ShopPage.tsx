@@ -36,7 +36,7 @@ export default function ShopPage() {
       </div>
 
       <Tabs defaultValue="all" className="w-full">
-        <TabsList className="mx-auto mb-8 flex h-auto w-full max-w-2xl flex-wrap justify-center gap-1 p-1">
+        <TabsList className="mx-auto mb-8 flex h-auto w-full max-w-3xl flex-wrap justify-center gap-1 p-1">
           <TabsTrigger value="all" className="flex-1 min-w-[120px]">
             All Products ({products.length})
           </TabsTrigger>
@@ -49,12 +49,16 @@ export default function ShopPage() {
           <TabsTrigger value="custom" className="flex-1 min-w-[120px]">
             Customizable ({customizable.length})
           </TabsTrigger>
+          <TabsTrigger value="scooters" className="flex-1 min-w-[120px]">
+            Scooters ({scooters.length})
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="all">{renderGrid(products)}</TabsContent>
         <TabsContent value="mystery">{renderGrid(mysteryBoxes)}</TabsContent>
         <TabsContent value="prints">{renderGrid(prints)}</TabsContent>
         <TabsContent value="custom">{renderGrid(customizable)}</TabsContent>
+        <TabsContent value="scooters">{renderGrid(scooters)}</TabsContent>
       </Tabs>
     </div>
   );
