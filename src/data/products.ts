@@ -1,6 +1,7 @@
 import mysteryBox from "@/assets/product-mystery-box.jpg";
 import scrubDaddyHolder from "@/assets/product-scrub-daddy-holder.jpg";
 import nameKeychain from "@/assets/product-name-keychain.jpg";
+import canClip from "@/assets/product-can-clip.jpg";
 
 export type Material = "PLA+" | "PETG";
 
@@ -17,6 +18,7 @@ export interface Product {
   name: string;
   size: string;
   kind: ProductKind;
+  category?: "scooter";
   fidgetCount: number;
   freeFidgets: number;
   bonusChance: number;
@@ -70,6 +72,32 @@ export const products: Product[] = [
       standardColors.white,
     ],
     satisfaction: { smoothness: 9, sound: 8, tactile: 9 },
+    badge: "New",
+  },
+  {
+    id: "7",
+    slug: "scooter-can-clip",
+    name: "500ml Can Clip for Scooters & Bikes",
+    size: "Print",
+    kind: "print",
+    category: "scooter",
+    fidgetCount: 1,
+    freeFidgets: 0,
+    bonusChance: 0,
+    price: 6.99,
+    image: canClip,
+    description:
+      "Keep your energy drink within arm's reach on every ride. A sturdy 3D-printed clip that mounts to scooter or bicycle frames and securely holds a standard 500ml can. Comes with double-sided tape and zip ties for extra security.",
+    materials: ["PLA+", "PETG"],
+    colors: [
+      standardColors.black,
+      standardColors.gray,
+      standardColors.white,
+      standardColors.blue,
+      standardColors.red,
+      standardColors.green,
+    ],
+    satisfaction: { smoothness: 9, sound: 7, tactile: 9 },
     badge: "New",
   },
   {
