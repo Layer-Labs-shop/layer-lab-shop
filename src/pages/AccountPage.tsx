@@ -169,6 +169,82 @@ export default function AccountPage() {
         </button>
       </div>
 
+      <section className="mt-12 rounded-2xl border border-border bg-card p-6">
+        <h2 className="flex items-center gap-2 font-display text-2xl font-bold">
+          <UserCircle className="h-5 w-5" /> Profile
+        </h2>
+        <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start">
+          <div className="flex flex-col items-center gap-3">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt="Your avatar"
+                className="h-28 w-28 rounded-full object-cover ring-2 ring-border"
+              />
+            ) : (
+              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground">
+                <UserCircle className="h-14 w-14" />
+              </div>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={onPickAvatar}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingAvatar}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-semibold transition-smooth hover:bg-secondary disabled:opacity-50"
+            >
+              <Upload className="h-3.5 w-3.5" />
+              {uploadingAvatar ? "Uploading..." : "Change photo"}
+            </button>
+          </div>
+
+          <form onSubmit={onSaveProfile} className="flex-1 space-y-4">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                maxLength={40}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="your_handle"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                About me
+              </label>
+              <textarea
+                value={aboutMe}
+                maxLength={500}
+                rows={4}
+                onChange={(e) => setAboutMe(e.target.value)}
+                placeholder="Tell the world a little about yourself..."
+                className="mt-1.5 w-full resize-y rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+              />
+              <div className="mt-1 text-right text-[11px] text-muted-foreground">
+                {aboutMe.length}/500
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={savingProfile}
+              className="rounded-full bg-gradient-brand px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-bounce hover:scale-[1.01] glow-brand disabled:opacity-50"
+            >
+              {savingProfile ? "Saving..." : "Save profile"}
+            </button>
+          </form>
+        </div>
+      </section>
+
       <section className="mt-12">
         <h2 className="flex items-center gap-2 font-display text-2xl font-bold">
           <Package className="h-5 w-5" /> Orders
