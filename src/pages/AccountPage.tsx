@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Package, Mail, KeyRound, LogOut } from "lucide-react";
+import { Package, Mail, KeyRound, LogOut, UserCircle, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { Seo } from "@/components/Seo";
 import { useAuth } from "@/hooks/useAuth";
@@ -34,6 +34,13 @@ export default function AccountPage() {
   const [savingEmail, setSavingEmail] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
 
+  const [username, setUsername] = useState("");
+  const [aboutMe, setAboutMe] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (!loading && !user) navigate("/auth", { replace: true });
   }, [user, loading, navigate]);
@@ -52,6 +59,19 @@ export default function AccountPage() {
         setOrders((data ?? []) as unknown as Order[]);
       }
       setLoadingOrders(false);
+    })();
+
+    (async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("username, about_me, avatar_url")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (data) {
+        setUsername(data.username ?? "");
+        setAboutMe(data.about_me ?? "");
+        setAvatarUrl(data.avatar_url ?? null);
+      }
     })();
   }, [user]);
 
@@ -85,6 +105,52 @@ export default function AccountPage() {
     }
   }
 
+  async function onSaveProfile(e: React.FormEvent) {
+    e.preventDefault();
+    if (!user) return;
+    setSavingProfile(true);
+    const { error } = await supabase
+      .from("profiles")
+      .upsert(
+        { user_id: user.id, username: username.trim() || null, about_me: aboutMe.trim() || null },
+        { onConflict: "user_id" },
+      );
+    setSavingProfile(false);
+    if (error) toast.error(error.message);
+    else toast.success("Profile updated");
+  }
+
+  async function onPickAvatar(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    if (file.size > 3 * 1024 * 1024) {
+      toast.error("Image must be under 3MB");
+      return;
+    }
+    setUploadingAvatar(true);
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const path = `${user.id}/avatar-${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { upsert: true, contentType: file.type });
+    if (upErr) {
+      setUploadingAvatar(false);
+      toast.error(upErr.message);
+      return;
+    }
+    const { data: pub } = supabase.storage.from("avatars").getPublicUrl(path);
+    const url = pub.publicUrl;
+    const { error: dbErr } = await supabase
+      .from("profiles")
+      .upsert({ user_id: user.id, avatar_url: url }, { onConflict: "user_id" });
+    setUploadingAvatar(false);
+    if (dbErr) toast.error(dbErr.message);
+    else {
+      setAvatarUrl(url);
+      toast.success("Photo updated");
+    }
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <Seo title="My account — Layer Lab" description="Manage your account, view your orders." />
@@ -102,6 +168,82 @@ export default function AccountPage() {
           <LogOut className="h-4 w-4" /> Sign out
         </button>
       </div>
+
+      <section className="mt-12 rounded-2xl border border-border bg-card p-6">
+        <h2 className="flex items-center gap-2 font-display text-2xl font-bold">
+          <UserCircle className="h-5 w-5" /> Profile
+        </h2>
+        <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start">
+          <div className="flex flex-col items-center gap-3">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt="Your avatar"
+                className="h-28 w-28 rounded-full object-cover ring-2 ring-border"
+              />
+            ) : (
+              <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground">
+                <UserCircle className="h-14 w-14" />
+              </div>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              hidden
+              onChange={onPickAvatar}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingAvatar}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-semibold transition-smooth hover:bg-secondary disabled:opacity-50"
+            >
+              <Upload className="h-3.5 w-3.5" />
+              {uploadingAvatar ? "Uploading..." : "Change photo"}
+            </button>
+          </div>
+
+          <form onSubmit={onSaveProfile} className="flex-1 space-y-4">
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                maxLength={40}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="your_handle"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                About me
+              </label>
+              <textarea
+                value={aboutMe}
+                maxLength={500}
+                rows={4}
+                onChange={(e) => setAboutMe(e.target.value)}
+                placeholder="Tell the world a little about yourself..."
+                className="mt-1.5 w-full resize-y rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+              />
+              <div className="mt-1 text-right text-[11px] text-muted-foreground">
+                {aboutMe.length}/500
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={savingProfile}
+              className="rounded-full bg-gradient-brand px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-bounce hover:scale-[1.01] glow-brand disabled:opacity-50"
+            >
+              {savingProfile ? "Saving..." : "Save profile"}
+            </button>
+          </form>
+        </div>
+      </section>
 
       <section className="mt-12">
         <h2 className="flex items-center gap-2 font-display text-2xl font-bold">
