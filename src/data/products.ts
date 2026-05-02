@@ -134,7 +134,7 @@ export const products: Product[] = [
   {
     id: "9",
     slug: "dihossauro",
-    name: "Dihossauro",
+    name: "Dihosaur",
     size: "Print",
     kind: "print",
     fidgetCount: 1,

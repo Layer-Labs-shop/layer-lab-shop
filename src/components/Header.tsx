@@ -1,8 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 import { ShoppingBag, Menu, X, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/store/cart";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "./Logo";
 
 const navLinks = [
