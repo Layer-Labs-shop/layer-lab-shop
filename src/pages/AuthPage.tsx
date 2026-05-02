@@ -19,6 +19,12 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
  
+  useEffect(() => {
+  if (user) {
+    navigate("/", { replace: true });
+  }
+}, [user, navigate]);
+  
   async function onSubmit(e: React.FormEvent) {
   e.preventDefault();
   setBusy(true);
