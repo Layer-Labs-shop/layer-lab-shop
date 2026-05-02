@@ -3,7 +3,7 @@ import { ShoppingBag, Menu, X, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCart } from "@/store/cart";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
+
 import { Logo } from "./Logo";
 
 const navLinks = [
@@ -24,12 +24,16 @@ export function Header() {
       setAvatarUrl(null);
       return;
     }
-    supabase
-      .from("profiles")
-      .select("avatar_url")
-      .eq("user_id", user.id)
-      .maybeSingle()
-      .then(({ data }) => setAvatarUrl(data?.avatar_url ?? null));
+    // Prefer Firebase user.photoURL immediately, then refine from Firestore profile
+    setAvatarUrl(user.photoURL ?? null);
+    import("firebase/firestore").then(async ({ doc, getDoc }) => {
+      const { db } = await import("@/lib/firebase");
+      const snap = await getDoc(doc(db, "profiles", user.uid));
+      if (snap.exists()) {
+        const data = snap.data() as { photoURL?: string | null };
+        if (data.photoURL) setAvatarUrl(data.photoURL);
+      }
+    }).catch(() => {});
   }, [user]);
 
   return (

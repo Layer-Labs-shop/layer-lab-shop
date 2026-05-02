@@ -5,6 +5,10 @@ import { toast } from "sonner";
 import { Seo } from "@/components/Seo";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { auth, db, storage } from "@/lib/firebase";
+import { updateEmail, updatePassword } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 interface OrderItem {
   product_id: string;
@@ -48,29 +52,40 @@ export default function AccountPage() {
   useEffect(() => {
     if (!user) return;
     setNewEmail(user.email ?? "");
+
+    // Orders still come from Supabase for now.
     (async () => {
       const { data, error } = await supabase
         .from("orders")
         .select("id, created_at, total, status, items")
         .order("created_at", { ascending: false });
       if (error) {
-        toast.error("Could not load orders: " + error.message);
+        // Don't block UI just because Supabase orders are unavailable.
+        console.warn("Orders fetch failed:", error.message);
       } else {
         setOrders((data ?? []) as unknown as Order[]);
       }
       setLoadingOrders(false);
     })();
 
+    // Profile from Firestore.
     (async () => {
-      const { data } = await supabase
-        .from("profiles")
-        .select("username, about_me, avatar_url")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      if (data) {
-        setUsername(data.username ?? "");
-        setAboutMe(data.about_me ?? "");
-        setAvatarUrl(data.avatar_url ?? null);
+      try {
+        const snap = await getDoc(doc(db, "profiles", user.uid));
+        if (snap.exists()) {
+          const data = snap.data() as {
+            username?: string | null;
+            about?: string | null;
+            photoURL?: string | null;
+          };
+          setUsername(data.username ?? "");
+          setAboutMe(data.about ?? "");
+          setAvatarUrl(data.photoURL ?? user.photoURL ?? null);
+        } else {
+          setAvatarUrl(user.photoURL ?? null);
+        }
+      } catch (err) {
+        console.error("Profile load failed:", err);
       }
     })();
   }, [user]);
@@ -79,29 +94,39 @@ export default function AccountPage() {
 
   async function onUpdateEmail(e: React.FormEvent) {
     e.preventDefault();
+    if (!auth.currentUser) return;
     setSavingEmail(true);
-    const { error } = await supabase.auth.updateUser(
-      { email: newEmail },
-      { emailRedirectTo: window.location.origin + "/account" },
-    );
-    setSavingEmail(false);
-    if (error) toast.error(error.message);
-    else toast.success("Confirmation email sent. Check your inbox to confirm the change.");
+    try {
+      await updateEmail(auth.currentUser, newEmail);
+      await setDoc(
+        doc(db, "profiles", auth.currentUser.uid),
+        { email: newEmail },
+        { merge: true },
+      );
+      toast.success("Email updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to update email");
+    } finally {
+      setSavingEmail(false);
+    }
   }
 
   async function onUpdatePassword(e: React.FormEvent) {
     e.preventDefault();
+    if (!auth.currentUser) return;
     if (newPassword.length < 6) {
       toast.error("Password must be at least 6 characters");
       return;
     }
     setSavingPassword(true);
-    const { error } = await supabase.auth.updateUser({ password: newPassword });
-    setSavingPassword(false);
-    if (error) toast.error(error.message);
-    else {
+    try {
+      await updatePassword(auth.currentUser, newPassword);
       toast.success("Password updated");
       setNewPassword("");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to update password");
+    } finally {
+      setSavingPassword(false);
     }
   }
 
@@ -109,15 +134,23 @@ export default function AccountPage() {
     e.preventDefault();
     if (!user) return;
     setSavingProfile(true);
-    const { error } = await supabase
-      .from("profiles")
-      .upsert(
-        { user_id: user.id, username: username.trim() || null, about_me: aboutMe.trim() || null },
-        { onConflict: "user_id" },
+    try {
+      await setDoc(
+        doc(db, "profiles", user.uid),
+        {
+          uid: user.uid,
+          email: user.email ?? null,
+          username: username.trim() || null,
+          about: aboutMe.trim() || null,
+        },
+        { merge: true },
       );
-    setSavingProfile(false);
-    if (error) toast.error(error.message);
-    else toast.success("Profile updated");
+      toast.success("Profile updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to save profile");
+    } finally {
+      setSavingProfile(false);
+    }
   }
 
   async function onPickAvatar(e: React.ChangeEvent<HTMLInputElement>) {
@@ -128,26 +161,22 @@ export default function AccountPage() {
       return;
     }
     setUploadingAvatar(true);
-    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const path = `${user.id}/avatar-${Date.now()}.${ext}`;
-    const { error: upErr } = await supabase.storage
-      .from("avatars")
-      .upload(path, file, { upsert: true, contentType: file.type });
-    if (upErr) {
-      setUploadingAvatar(false);
-      toast.error(upErr.message);
-      return;
-    }
-    const { data: pub } = supabase.storage.from("avatars").getPublicUrl(path);
-    const url = pub.publicUrl;
-    const { error: dbErr } = await supabase
-      .from("profiles")
-      .upsert({ user_id: user.id, avatar_url: url }, { onConflict: "user_id" });
-    setUploadingAvatar(false);
-    if (dbErr) toast.error(dbErr.message);
-    else {
+    try {
+      const path = `avatars/${user.uid}`;
+      const r = storageRef(storage, path);
+      await uploadBytes(r, file, { contentType: file.type });
+      const url = await getDownloadURL(r);
+      await setDoc(
+        doc(db, "profiles", user.uid),
+        { photoURL: url },
+        { merge: true },
+      );
       setAvatarUrl(url);
       toast.success("Photo updated");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingAvatar(false);
     }
   }
 
@@ -309,7 +338,7 @@ export default function AccountPage() {
             <Mail className="h-4 w-4" /> Email address
           </h3>
           <p className="mt-1 text-xs text-muted-foreground">
-            We'll send a confirmation link to your new email.
+            You may need to re-authenticate if it's been a while since you signed in.
           </p>
           <input
             type="email"
