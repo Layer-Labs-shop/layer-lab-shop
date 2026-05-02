@@ -17,6 +17,20 @@ export function Header() {
   const { count } = useCart();
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      setAvatarUrl(null);
+      return;
+    }
+    supabase
+      .from("profiles")
+      .select("avatar_url")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(({ data }) => setAvatarUrl(data?.avatar_url ?? null));
+  }, [user]);
 
   return (
     <header className="sticky top-0 z-50 glass">
@@ -61,19 +75,30 @@ export function Header() {
           {user ? (
             <Link
               to="/account"
-              className="hidden h-10 items-center gap-2 rounded-full border border-border px-4 text-xs font-semibold transition-smooth hover:bg-secondary md:inline-flex"
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-border pl-1 pr-3 text-xs font-semibold transition-smooth hover:bg-secondary md:pl-1 md:pr-4"
               title={user.email ?? "Account"}
+              aria-label="Account"
             >
-              <User className="h-4 w-4" />
-              Account
+              {avatarUrl ? (
+                <img
+                  src={avatarUrl}
+                  alt="Your avatar"
+                  className="h-8 w-8 rounded-full object-cover"
+                />
+              ) : (
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground">
+                  <User className="h-4 w-4" />
+                </span>
+              )}
+              <span className="hidden md:inline">Account</span>
             </Link>
           ) : (
             <Link
               to="/auth"
-              className="hidden h-10 items-center gap-2 rounded-full border border-border px-4 text-xs font-semibold transition-smooth hover:bg-secondary md:inline-flex"
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-border px-3 text-xs font-semibold transition-smooth hover:bg-secondary md:px-4"
             >
               <User className="h-4 w-4" />
-              Sign in
+              <span className="hidden sm:inline">Sign in</span>
             </Link>
           )}
           <button
