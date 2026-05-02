@@ -60,6 +60,19 @@ export default function AccountPage() {
       }
       setLoadingOrders(false);
     })();
+
+    (async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("username, about_me, avatar_url")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (data) {
+        setUsername(data.username ?? "");
+        setAboutMe(data.about_me ?? "");
+        setAvatarUrl(data.avatar_url ?? null);
+      }
+    })();
   }, [user]);
 
   if (loading || !user) return null;
@@ -89,6 +102,52 @@ export default function AccountPage() {
     else {
       toast.success("Password updated");
       setNewPassword("");
+    }
+  }
+
+  async function onSaveProfile(e: React.FormEvent) {
+    e.preventDefault();
+    if (!user) return;
+    setSavingProfile(true);
+    const { error } = await supabase
+      .from("profiles")
+      .upsert(
+        { user_id: user.id, username: username.trim() || null, about_me: aboutMe.trim() || null },
+        { onConflict: "user_id" },
+      );
+    setSavingProfile(false);
+    if (error) toast.error(error.message);
+    else toast.success("Profile updated");
+  }
+
+  async function onPickAvatar(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    if (file.size > 3 * 1024 * 1024) {
+      toast.error("Image must be under 3MB");
+      return;
+    }
+    setUploadingAvatar(true);
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const path = `${user.id}/avatar-${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage
+      .from("avatars")
+      .upload(path, file, { upsert: true, contentType: file.type });
+    if (upErr) {
+      setUploadingAvatar(false);
+      toast.error(upErr.message);
+      return;
+    }
+    const { data: pub } = supabase.storage.from("avatars").getPublicUrl(path);
+    const url = pub.publicUrl;
+    const { error: dbErr } = await supabase
+      .from("profiles")
+      .upsert({ user_id: user.id, avatar_url: url }, { onConflict: "user_id" });
+    setUploadingAvatar(false);
+    if (dbErr) toast.error(dbErr.message);
+    else {
+      setAvatarUrl(url);
+      toast.success("Photo updated");
     }
   }
 
