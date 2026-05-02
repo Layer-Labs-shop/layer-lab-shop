@@ -9,6 +9,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Seo } from "@/components/Seo";
 import { useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function AuthPage() {
   const navigate = useNavigate();
