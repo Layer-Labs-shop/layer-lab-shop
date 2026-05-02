@@ -68,6 +68,36 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          about_me: string | null
+          avatar_url: string | null
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+          username: string | null
+        }
+        Insert: {
+          about_me?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          username?: string | null
+        }
+        Update: {
+          about_me?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
