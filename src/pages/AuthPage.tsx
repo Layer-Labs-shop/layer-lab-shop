@@ -12,12 +12,13 @@ import { useEffect } from "react";
 
 export default function AuthPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-
- async function onSubmit(e: React.FormEvent) {
+ 
+  async function onSubmit(e: React.FormEvent) {
   e.preventDefault();
   setBusy(true);
 
