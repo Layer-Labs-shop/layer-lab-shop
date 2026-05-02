@@ -39,7 +39,7 @@ export default function CheckoutPage() {
     setSubmitting(true);
     const fd = new FormData(e.currentTarget as HTMLFormElement);
     const payload = {
-      user_id: user.id,
+      user_id: user.uid,
       email: String(fd.get("email") ?? user.email ?? ""),
       full_name: `${fd.get("firstName") ?? ""} ${fd.get("lastName") ?? ""}`.trim(),
       address: String(fd.get("address") ?? ""),
